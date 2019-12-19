@@ -18,7 +18,6 @@ workflows:
           repo: nitesh_test
           dockerfile: ~/project/testing_app/Dockerfile
           path: ~/project/testing_app
-          tag: ${CIRCLE_BUILD_NUM}
 
 
 # jobs:
