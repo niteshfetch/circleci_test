@@ -1,78 +1,81 @@
 #Checking this commit if it will succeed in the pipeline
 #Checking if everything is working fine
 version: 2.1
+
 orbs:
   aws-eks: circleci/aws-eks@0.2.3
   aws-ecr: circleci/aws-ecr@3.1.0
   kubernetes: circleci/kubernetes@0.4.0
 
-jobs:
-  app-deploy:
-    executor: aws-eks/python3
-    parameters:
-      cluster-name: dev-fr-eks
-        description: |
-          Name of the EKS cluster
-        type: string
-      docker-image-name: 
-        description: |
-          Name of the docker image to be deployed
-        type: string
-      version-info:
-        description: |
-          App version information
-        type: string
-      aws-region:
-        description: |
-          AWS region
-        type: string
-        default: ""
-    steps:
-      - checkout
-      - run:
-          name: Create deployment manifest
-          command: |
-            # Replace the placeholders in the manifest with the intended values.
-            # This is to avoid hardcoding the image name in the manifest, to make this
-            # demo project more portable.
-            BUILD_DATE=$(date '+%Y%m%d%H%M%S')
-            cat deployment/testing-app-deployment.yaml.template |\
-               sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|\
-                g;s|BUILD_DATE_VALUE|$BUILD_DATE|g;s|VERSION_INFO_VALUE|\
-                << parameters.version-info >>|g" > deployment/demo-app-deployment.yaml
-      - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: << parameters.cluster-name >>
-          install-kubectl: true
-          aws-region: << parameters.aws-region >>
-      - kubernetes/create-or-update-resource:
-          resource-file-path: "deployment/demo-app-deployment.yaml"
-          get-rollout-status: true
-          resource-name: deployment/demoapp
-      - kubernetes/create-or-update-resource:
-          resource-file-path: "deployment/demo-app-service.yaml"
-
-
-  two:
-    docker:
-      - image: circleci/ruby:2.4.1
-    steps:
-      - checkout
-      - run: echo "A more familiar hi"  
-      - attach_workspace:
-          # Must be absolute path or relative path from working_directory
-          at: my_workspace
-
-      - run: |
-          if [[ $(cat my_workspace/echo-output) == "Trying out workspaces" ]]; then
-            echo "It worked!";
-          else
-            echo "Nope!"; exit 1
-          fi
 workflows:
   version: 2
-  one_and_two:
+  deployment:
     jobs:
-      - one
-      - two:
-          requires:
-            - one
+      - aws-ecr/build_and_push_image:
+          name: build-and-push-image
+          account-url: 812169894632.dkr.ecr.us-west-2.amazonaws.com/nitesh_test
+          region: us-west-2
+          repo: nitesh_test
+          dockerfile: ~/project/testing_app/Dockerfile
+          path: ~/project/testing_app
+          tag: firstTime
+
+
+# jobs:
+#   app-deploy:
+#     executor: aws-eks/python3
+#     parameters:
+#       cluster-name: dev-fr-eks
+#         description: Name of the EKS cluster
+#         type: string
+#       docker-image-name: testing_app_docker_image 
+#         description: Name of the docker image to be deployed
+#         type: string
+#       version-info: v1
+#         description: App version information
+#         type: string
+#       aws-region: us-west-2
+#         description: AWS region
+#         type: string
+#         default: ""
+#     steps:
+#       - checkout
+#       - run:
+#           name: Create deployment manifest
+#           command: |
+#             # Replace the placeholders in the manifest with the intended values.
+#             # This is to avoid hardcoding the image name in the manifest, to make this
+#             # demo project more portable.
+#             BUILD_DATE=$(date '+%Y%m%d%H%M%S')
+#             cat deployment/testing-app-deployment.yaml.template |\
+#                sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|\
+#                 g;s|BUILD_DATE_VALUE|$BUILD_DATE|g;s|VERSION_INFO_VALUE|\
+#                 << parameters.version-info >>|g" > deployment/demo-app-deployment.yaml
+#       - aws-eks/update-kubeconfig-with-authenticator:
+#           cluster-name: << parameters.cluster-name >>
+#           install-kubectl: true
+#           aws-region: << parameters.aws-region >>
+#       - kubernetes/create-or-update-resource:
+#           resource-file-path: "deployment/demo-app-deployment.yaml"
+#           get-rollout-status: true
+#           resource-name: deployment/demoapp
+#       - kubernetes/create-or-update-resource:
+#           resource-file-path: "deployment/demo-app-service.yaml"
+
+#   two:
+#     docker:
+#       - image: circleci/ruby:2.4.1
+#     steps:
+#       - checkout
+#       - run: echo "A more familiar hi"  
+#       - attach_workspace:
+#           # Must be absolute path or relative path from working_directory
+#           at: my_workspace
+
+#       - run: |
+#           if [[ $(cat my_workspace/echo-output) == "Trying out workspaces" ]]; then
+#             echo "It worked!";
+#           else
+#             echo "Nope!"; exit 1
+#           fi
+
