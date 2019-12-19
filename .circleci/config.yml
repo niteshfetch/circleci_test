@@ -13,7 +13,7 @@ workflows:
     jobs:
       - aws-ecr/build_and_push_image:
           name: build-and-push-image
-          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+          account-url: AWS_ECR_URL
           region: AWS_DEFAULT_REGION
           repo: nitesh_test
           dockerfile: ~/project/testing_app/Dockerfile
