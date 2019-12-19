@@ -1,6 +1,6 @@
 #Checking this commit if it will succeed in the pipeline
 #Checking if everything is working fine
-version: 2
+version: 2.1
 orbs:
   aws-eks: circleci/aws-eks@0.2.3
   aws-ecr: circleci/aws-ecr@3.1.0
@@ -10,11 +10,11 @@ jobs:
   app-deploy:
     executor: aws-eks/python3
     parameters:
-      cluster-name:
+      cluster-name: dev-fr-eks
         description: |
           Name of the EKS cluster
         type: string
-      docker-image-name:
+      docker-image-name: 
         description: |
           Name of the docker image to be deployed
         type: string
@@ -36,7 +36,7 @@ jobs:
             # This is to avoid hardcoding the image name in the manifest, to make this
             # demo project more portable.
             BUILD_DATE=$(date '+%Y%m%d%H%M%S')
-            cat deployment/demo-app-deployment.yaml.template |\
+            cat deployment/testing-app-deployment.yaml.template |\
                sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|\
                 g;s|BUILD_DATE_VALUE|$BUILD_DATE|g;s|VERSION_INFO_VALUE|\
                 << parameters.version-info >>|g" > deployment/demo-app-deployment.yaml
