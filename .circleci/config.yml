@@ -1,6 +1,11 @@
 #Checking this commit if it will succeed in the pipeline
 #Checking if everything is working fine
 version: 2
+orbs:
+  aws-eks: circleci/aws-eks@0.2.3
+  aws-ecr: circleci/aws-ecr@3.1.0
+  kubernetes: circleci/kubernetes@0.4.0
+  
 jobs:
   one:
     docker:
