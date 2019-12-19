@@ -7,12 +7,9 @@ orbs:
   aws-ecr: circleci/aws-ecr@3.1.0
   kubernetes: circleci/kubernetes@0.4.0
 
-jobs: 
-
-
 workflows:
   version: 2
-  deployment:
+  build-test-and-deploy:
     jobs:
       - aws-ecr/build_and_push_image:
           name: build-and-push-image
