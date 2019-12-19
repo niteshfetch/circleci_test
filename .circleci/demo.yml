@@ -1,13 +1,4 @@
-#Checking this commit if it will succeed in the pipeline
-#Checking if everything is working fine
-version: 2
-orbs:
-  aws-eks: circleci/aws-eks@0.2.3
-  aws-ecr: circleci/aws-ecr@3.1.0
-  kubernetes: circleci/kubernetes@0.4.0
-
-jobs:
-  app-deploy:
+  deploy-application:
     executor: aws-eks/python3
     parameters:
       cluster-name:
@@ -50,29 +41,3 @@ jobs:
           resource-name: deployment/demoapp
       - kubernetes/create-or-update-resource:
           resource-file-path: "deployment/demo-app-service.yaml"
-
-
-  two:
-    docker:
-      - image: circleci/ruby:2.4.1
-    steps:
-      - checkout
-      - run: echo "A more familiar hi"  
-      - attach_workspace:
-          # Must be absolute path or relative path from working_directory
-          at: my_workspace
-
-      - run: |
-          if [[ $(cat my_workspace/echo-output) == "Trying out workspaces" ]]; then
-            echo "It worked!";
-          else
-            echo "Nope!"; exit 1
-          fi
-workflows:
-  version: 2
-  one_and_two:
-    jobs:
-      - one
-      - two:
-          requires:
-            - one
