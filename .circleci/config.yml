@@ -16,8 +16,8 @@ workflows:
           account-url: AWS_ECR_URL
           region: AWS_DEFAULT_REGION
           repo: nitesh_test
-          dockerfile: ~/project/testing_app/Dockerfile
-          path: ~/project/testing_app
+          dockerfile: ~/project/testingApp/Dockerfile
+          path: ~/project/testingApp
 
 
 # jobs:
