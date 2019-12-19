@@ -18,7 +18,7 @@ workflows:
           repo: nitesh_test
           dockerfile: ~/project/testing_app/Dockerfile
           path: ~/project/testing_app
-          tag: firstTime
+          tag: ${CIRCLE_BUILD_NUM}
 
 
 # jobs:
