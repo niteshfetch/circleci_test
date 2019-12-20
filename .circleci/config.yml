@@ -18,7 +18,7 @@ workflows:
           repo: nitesh_test
           dockerfile: ~/project/testingApp/Dockerfile
           path: ~/project/testingApp
-          tag: ${CIRCLE_SHA1}
+          tag: 'latest,First'
 
 
 # jobs:
