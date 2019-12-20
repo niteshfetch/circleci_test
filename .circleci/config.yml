@@ -15,7 +15,7 @@ workflows:
           name: build-and-push-image
           account-url: AWS_ECR_URL
           region: AWS_DEFAULT_REGION
-          repo: 812169894632.dkr.ecr.us-west-2.amazonaws.com/nitesh_test
+          repo: AWS_ECR_URL/nitesh_test
           dockerfile: ~/project/testingApp/Dockerfile
           path: ~/project/testingApp
 
