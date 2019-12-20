@@ -7,12 +7,12 @@ import (
 )
 
 func mainHandler() http.HandlerFunc {
-	return http.HandlerFunc(func (w http.REsponseWriter, r *http.REquest)  {
-		fmt.Fprintf(w, "Hello World! ")
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello World! (Version info: %s, build date: %s)", os.Getenv("VERSION_INFO"), os.Getenv("BUILD_DATE"))
 	})
-	
-	func main()  {
-		http.HandlerFunc("/", mainHandler())
-		http.ListenAndServe(":8080", nil)
-	}
+}
+
+func main() {
+	http.HandleFunc("/", mainHandler())
+	http.ListenAndServe(":8080", nil)
 }
