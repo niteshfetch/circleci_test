@@ -7,10 +7,6 @@ orbs:
   aws-ecr: circleci/aws-ecr@3.1.0
   kubernetes: circleci/kubernetes@0.4.0
 
-jobs:
-  build_test:
-    
-
 workflows:
   version: 2
   build-test-and-deploy:
@@ -19,7 +15,7 @@ workflows:
           name: build-and-push-image
           account-url: AWS_ECR_URL
           region: AWS_DEFAULT_REGION
-          repo: nitesh_test
+          repo: 812169894632.dkr.ecr.us-west-2.amazonaws.com/nitesh_test
           dockerfile: ~/project/testingApp/Dockerfile
           path: ~/project/testingApp
 
