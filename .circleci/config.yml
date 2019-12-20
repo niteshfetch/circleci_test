@@ -15,4 +15,4 @@ workflows:
           repo: nitesh_test
           dockerfile: ~/project/testingApp/Dockerfile
           path: ~/project/testingApp
-          tag: latest,myFirst
+          tag: latest,myFirstImage
