@@ -3,24 +3,19 @@
 version: 2.1
 
 orbs:
-  aws-eks: circleci/aws-eks@0.2.3
   aws-ecr: circleci/aws-ecr@6.6.0
-  kubernetes: circleci/kubernetes@0.4.0
-
 workflows:
-  version: 2
   build-test-and-deploy:
     jobs:
-      - aws-ecr/build_and_push_image:
-          name: build-and-push-image
+      - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           region: AWS_DEFAULT_REGION
           repo: nitesh_test
           dockerfile: ~/project/testingApp/Dockerfile
           path: ~/project/testingApp
           tag: 'latest,First'
-
-
 # jobs:
 #   app-deploy:
 #     executor: aws-eks/python3
