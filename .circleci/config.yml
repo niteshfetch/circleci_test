@@ -15,7 +15,7 @@ workflows:
           repo: nitesh_test
           dockerfile: ~/project/testingApp/Dockerfile
           path: ~/project/testingApp
-          tag: 'latest,myFirst'
+
 # jobs:
 #   app-deploy:
 #     executor: aws-eks/python3
