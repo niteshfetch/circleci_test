@@ -7,6 +7,10 @@ orbs:
   aws-ecr: circleci/aws-ecr@3.1.0
   kubernetes: circleci/kubernetes@0.4.0
 
+jobs:
+  build_test:
+    
+
 workflows:
   version: 2
   build-test-and-deploy:
